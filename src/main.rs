@@ -11,7 +11,8 @@ enum State {
 }
 
 fn main() -> std::io::Result<()> {
-    let f = File::open("test.cpp")?;
+    let fname = std::env::args().nth(1).unwrap();
+    let f = File::open(fname)?;
     let reader = BufReader::new(f);
     let mut state = State::Normal;
 
