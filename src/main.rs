@@ -58,15 +58,14 @@ fn print_guid_as_uuid(s: &[String]) {
 
     for line in s.iter() {
         if let Some(caps) = re.captures(&line) {
+            let mut line = line.clone();
             for cap in caps.iter() {
-                let guid_start = cap.unwrap().start();
-                let (fh, sh) = line.split_at(guid_start);
-                let (g, sh) = sh.split_at(1);
+                let g_ind = cap.unwrap().start();
+                let g = &line[g_ind..=g_ind];
                 let u = if g == "G" { "U" } else { "u" };
-
-                println!("{}{}{}", fh, u, sh);
-                // println!("{} {:?}", line, cap.map(|cap| cap.start()));
+                line.replace_range(g_ind..=g_ind, u);
             }
+            println!("{}", line);
         } else {
             println!("{}", line);
         }
